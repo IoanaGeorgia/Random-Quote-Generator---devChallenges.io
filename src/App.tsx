@@ -27,6 +27,7 @@ export default function App() {
     .then(json => {console.log(json), setQuote(json.data[0].quoteText), setAuthor(json.data[0].quoteAuthor), setGenre(json.data[0].quoteGenre)})
     .catch(error => console.error(error));
   }
+
   function styleArrow(){
     if(isHover){
       return {...quoteInfo, ...hoverInfo}
@@ -42,9 +43,10 @@ export default function App() {
       return authorStyleDefault
     }
   }
-  function getMoreQuotes(){
+  const getMoreQuotes = () => {
     return
   }
+  
   const mainWrapper = {
     display:'grid',
     'place-items':'center',
@@ -110,7 +112,8 @@ export default function App() {
   return (
     <div style={mainWrapper}>
       <div style={headerStyles}>
-        <button style={refreshButton}> random <div style={refreshIcon}>🗘</div> </button>
+        {/* note: for onclick events, don't call the function with the paranthesis os it won't keep actively calling it */}
+        <button style={refreshButton} onClick={getQuote}> random <div style={refreshIcon}>🗘</div> </button>
       </div>
       <div style={quoteMainWrapper}>
         <div style={quoteWrapper}>
