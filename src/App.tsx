@@ -7,7 +7,8 @@ export default function App() {
   const [isHover, setIsHover] = useState(false);
   const [quote, setQuote] = useState(null);
   const [author, setAuthor] = useState(null);
-  const [genre, setGenre] = useState(null)
+  const [genre, setGenre] = useState(null);
+  const [newQuotes, setNewQuotes] =useState(null);
 
   useEffect(() => {
       getQuote()
@@ -24,9 +25,19 @@ export default function App() {
   function getQuote(){
     fetch(' https://quote-garden.onrender.com/api/v3/quotes/random')
     .then(response => response.json())
-    .then(json => {console.log(json), setQuote(json.data[0].quoteText), setAuthor(json.data[0].quoteAuthor), setGenre(json.data[0].quoteGenre)})
+    .then(json => {setQuote(json.data[0].quoteText), setAuthor(json.data[0].quoteAuthor), setGenre(json.data[0].quoteGenre)})
     .catch(error => console.error(error));
   }
+
+  function getMoreQuotes(){
+    fetch('https://quote-garden.onrender.com/api/v3/quotes/random?author=Bill Gates&count=2')
+    .then(response => response.json())
+    .then(json => {console.log(json), setNewQuotes(json.data)})
+    .catch(error => console.error(error));
+
+    
+  }
+
 
   function styleArrow(){
     if(isHover){
@@ -43,9 +54,7 @@ export default function App() {
       return authorStyleDefault
     }
   }
-  const getMoreQuotes = () => {
-    return
-  }
+
   
   const mainWrapper = {
     display:'grid',
@@ -121,7 +130,9 @@ export default function App() {
           </div>
           <div style={styleArrow()}                 
             onMouseEnter={hoverInputEnter}
-            onMouseLeave={hoverInputLeave}>
+            onMouseLeave={hoverInputLeave}
+            onClick={getMoreQuotes}
+            >
             <span>
             <div style={authorStyle()}>{author}</div>
             <div style={genreStyle}>{genre}</div>
@@ -130,6 +141,18 @@ export default function App() {
              >→</div>
             
           </div>
+
+          
+      {/* {Object.values(moreQuotesList).map(([key, value]) => (
+        <li key={key}>{value}</li>
+      ))}  */}
+            {newQuotes && newQuotes.map((quotes, index) => (
+         <div style={quoteWrapper} key={index}>
+         {JSON.stringify(quotes.quoteText)}
+       </div>
+      ))}
+   
+
       </div>
     </div>
   );
