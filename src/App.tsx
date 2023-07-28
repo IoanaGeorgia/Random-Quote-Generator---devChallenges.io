@@ -30,17 +30,13 @@ export default function App() {
     fetch(' https://quote-garden.onrender.com/api/v3/quotes/random')
     .then(response => response.json())
     .then(json => {setQuote(json.data[0].quoteText), setAuthor(json.data[0].quoteAuthor), setGenre(json.data[0].quoteGenre), setNewQuotes([])})
-    .catch(error => console.error(error));
   }
 
   // load 2 more quotes from the same author on click on the author info div
   function getMoreQuotes(){
     fetch(`https://quote-garden.onrender.com/api/v3/quotes/random?author=${author}&count=2`)
     .then(response => response.json())
-    .then(json => {console.log(json), setNewQuotes(json.data)})
-    .catch(error => console.error(error));
-
-    
+    .then(json => {setNewQuotes(json.data)})
   }
 
 // styling the whole arrow div depending on hover
@@ -67,7 +63,8 @@ export default function App() {
     display:'grid',
     placeItems:'center',
     padding:'2vh 10vh',
-    fontFamily:'Arial'
+    height:'fit-content',
+    fontFamily:'Arial',
   }
   const headerStyles ={
     textAlign:'right',
@@ -82,7 +79,8 @@ export default function App() {
   }
   const refreshIcon = {
     transform: "rotate(90deg)",
-    display:'inline-block'
+    display:'inline-block',
+    marginLeft:'1vh',
   }
   const quoteMainWrapper ={
     height:'50vh',
@@ -92,7 +90,7 @@ export default function App() {
     borderLeft:'5px solid #f5cb42',
     paddingLeft:'8vh',
     marginBottom:'15vh',
-    fontSize:'23px'
+    fontSize:'23px',
   }
   const quoteInfo={
     marginLeft:'7vh',
@@ -125,10 +123,10 @@ export default function App() {
     color:'white'
   }
   const authorTitle = {
-    fontSize:'23px',
+    fontSize:'20px',
     fontWeight:'bolder',
     position:'absolute',
-    marginTop:'-10%',
+    marginTop:'-70px',
   }
   const devInfo = {
     position:'fixed',
@@ -187,6 +185,7 @@ export default function App() {
 {/* the other two quotes, visible when the author info is clicked           */}
             {newQuotes && newQuotes.map((quotes, index) => (
          <div 
+         className='moreQuotes'
          style={quoteWrapper} 
          key={index}>
          {JSON.stringify(quotes.quoteText)}
